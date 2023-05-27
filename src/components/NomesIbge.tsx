@@ -6,7 +6,7 @@ export function Nome() {
         <Container>
             <ContainerInput>
                 <Input placeholder="Primeiro Nome"/>
-                <Button>obter</Button>
+                <Button>Obter</Button>
             </ContainerInput>
 
             <ContainerText>
