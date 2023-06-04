@@ -2,47 +2,51 @@ import "../styles/NomesIbege.css"
 import styled from 'styled-components';
 import { useState } from "react";
 import axios from "axios";
+import { NomeIBGE } from "../types";
 
 export function Nome() {
     const [nome, setNome] = useState('');
-    const [data, setData] = useState([]);
-    const consultarOcorrencias = async () => {
-        try {
-          const response = await axios.get(
-            `https://servicodados.ibge.gov.br/api/v2/censos/nomes/${nome}`
-          );
-          setData(response.data[0]);
-        } catch (error) {
-          console.error('Erro ao consultar as ocorrências:', error);
-        }
-      };
-    
-      console.log(data);
-      
+    const [data, setData] = useState<NomeIBGE[]>([]);
 
+    const consultarOcorrencias = async () => {
+      try {
+        const response = await axios.get(
+          `https://servicodados.ibge.gov.br/api/v2/censos/nomes/${nome}`
+        );
+    
+
+        setData(response.data);
+
+      } catch (error) {
+        console.error('Erro ao consultar as ocorrências:', error);
+      }
+    };
+    
     return (
         <Container>
-            <ContainerInput>
-                <Input 
-                placeholder="Primeiro Nome"        
-                value={nome}
-                onChange={(e) => setNome(e.target.value)}
-                />
-                <Button onClick={consultarOcorrencias}>Obter</Button>
-            </ContainerInput>
-
-            <ContainerText>
-                {/* {data.map((item) => (
-                    <p>Nome: {item.nome}</p>
-                    {item.res.map((ocorrencia:any) => (
-                    <div>
-                        <p>Período: {ocorrencia.periodo}</p>
-                        <p>Frequência: {ocorrencia.frequencia}</p>
-                    </div>
-                    ))}
-                ))} */}
-            </ContainerText>
-        </Container>
+        <ContainerInput>
+          <Input
+            placeholder="Primeiro Nome"
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+          />
+          <Button onClick={consultarOcorrencias}>Obter</Button>
+        </ContainerInput>
+    
+        <ContainerText>
+          {data.map((item) => (
+            <div>
+              <p>Nome: {item.nome}</p>
+              {item.res.map((ocorrencia) => (
+                <div>
+                  <p>{ocorrencia.periodo}: {ocorrencia.frequencia}</p>
+               
+                </div>
+              ))}
+            </div>
+          ))}
+        </ContainerText>
+      </Container>
     )
 }
 
