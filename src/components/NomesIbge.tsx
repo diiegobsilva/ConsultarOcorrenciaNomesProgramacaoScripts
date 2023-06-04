@@ -13,8 +13,6 @@ export function Nome() {
         const response = await axios.get(
           `https://servicodados.ibge.gov.br/api/v2/censos/nomes/${nome}`
         );
-    
-
         setData(response.data);
 
       } catch (error) {
